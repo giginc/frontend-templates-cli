@@ -1,0 +1,10 @@
+{
+  "name": "frontend-templates-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/giginc/frontend-templates-cli.git",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.19.0"
+  }
+}
