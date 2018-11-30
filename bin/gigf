@@ -76,5 +76,5 @@ const cmd = cmd => {
     cmd(`mv frontend-templates/* . && rm -rf frontend-templates .git && npm i`);
   }
 
-  console.log('テンプレートの準備ができました🎉 `npm run dev`で開発を始めましょう！');
+  console.log('テンプレートの準備ができました🎉 \n`npm run dev`で開発を始めましょう！');
 })();
