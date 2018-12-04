@@ -20,7 +20,7 @@ const cmd = cmd => {
     {
       type: 'select',
       name: 'dir',
-      message: 'ディレクトリを作成して出力しますか？',
+      message: 'プロジェクト用のディレクトリを作成しますか？',
       choices: [
         { title: 'はい', value: true },
         { title: 'いいえ', value: false },
