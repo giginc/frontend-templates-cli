@@ -16,65 +16,54 @@ const cmd = cmd => {
 (async function() {
   const state = {};
 
-  const step1 = [
+  const questions = [
     {
       type: 'select',
-      name: 'currentDir',
+      name: 'dir',
       message: 'ディレクトリを作成して出力しますか？',
       choices: [
         { title: 'はい', value: true },
         { title: 'いいえ', value: false },
       ]
-    }
-  ];
-
-  const step2 = [
+    },
     {
-      type: 'text',
+      type: prev => prev === true ? 'text' : null,
       name: 'name',
-      message: 'ディレクトリ名を入力してください',
-    }
-  ];
-
-  const step3 = [
+      message: 'プロジェクト名を入力してください',
+      validate: value => value.length === 0 ? `入力されていません` : true
+    },
     {
       type: 'select',
       name: 'template',
       message: '利用するテンプレートを選択してください',
       choices: [
-        { title: 'Simple', value: null },
+        { title: 'Simple', value: 'master' },
         { title: 'Pug', value: 'template/pug' },
         { title: 'EJS', value: 'template/ejs' }
       ]
     }
   ];
 
-  // Step1
-  Object.assign(state, await prompts(step1));
+  Object.assign(state, await prompts(questions));
 
-  // Step2
-  if (state.currentDir) {
-    Object.assign(state, await prompts(step2));
+  if (state.template)
+  {
+    console.log('テンプレートのダウンロードを開始します...');
+
+    if (state.template !== 'master') {
+      cmd(`git clone -b ${state.template} ${REPOSITORY_SSH}`);
+    } else {
+      cmd(`git clone ${REPOSITORY_SSH}`);
+    }
+
+    console.log('`npm install`を実行します...');
+
+    if (state.dir) {
+      cmd(`mv frontend-templates ${state.name} && rm -rf ${state.name}/.git && cd ${state.name} && npm i`);
+    } else {
+      cmd(`mv frontend-templates/* . && rm -rf frontend-templates .git && npm i`);
+    }
+
+    console.log('テンプレートの準備ができました🎉 \n`npm run dev`で開発を始めましょう！');
   }
-
-  // Step3
-  Object.assign(state, await prompts(step3));
-
-  console.log('テンプレートのダウンロードを開始します...');
-
-  if (state.template) {
-    cmd(`git clone -b ${state.template} ${REPOSITORY_SSH}`);
-  } else {
-    cmd(`git clone ${REPOSITORY_SSH}`);
-  }
-
-  console.log('`npm install`を実行します...');
-
-  if (state.currentDir) {
-    cmd(`mv frontend-templates ${state.name} && rm -rf ${state.name}/.git && cd ${state.name} && npm i`);
-  } else {
-    cmd(`mv frontend-templates/* . && rm -rf frontend-templates .git && npm i`);
-  }
-
-  console.log('テンプレートの準備ができました🎉 \n`npm run dev`で開発を始めましょう！');
 })();

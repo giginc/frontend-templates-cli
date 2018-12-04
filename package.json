@@ -8,7 +8,6 @@
     "gigf": "bin/gigf"
   },
   "dependencies": {
-    "commander": "^2.19.0",
     "prompts": "^1.2.1"
   }
 }
