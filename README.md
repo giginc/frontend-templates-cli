@@ -4,7 +4,7 @@
 ## インストール
 
 ```
-$ npm install gigf-cli -g
+$ npm install -g gigf
 ```
 
 ## テンプレートのダウンロード
